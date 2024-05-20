@@ -21,3 +21,11 @@ All code is free and open source.
 1. Add styles of slider in style.css of it's folder
 2. Add html tags for slider & images in html.js
 3. Then define speedSlider variable to store the slider value and add some math to it then save it to stepSpeed
+4. Run `make games` to compile necessary
+
+### 3. Bird Game
+
+1. Add styles of slider in style.css of it's folder
+2. Add html tags for slider & images in html.js
+3. Then define speedSlider variable to store the slider value and add some math to it then save it to stepSpeed
+4. Run `make games` to compile necessary
