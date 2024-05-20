@@ -7,3 +7,11 @@ All code is free and open source.
 **The games are available at https://blockly.games/**
 
 **The developer's site is at https://github.com/google/blockly-games/wiki**
+
+## Steps
+
+### 1. Installation
+
+1. Setting up game dependencies on macOS using `Homebrew`.
+2. Installing game dependencies using `make deps` doesn't work because github doesn't support svn anymore so I download & import it manually to project via this link [https://github.com/google/blockly-games/raw/offline/generated/blockly-games-en.zip].
+3. Then run `make games` to compile necessary files for games.
