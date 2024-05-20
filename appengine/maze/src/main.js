@@ -25,6 +25,7 @@ goog.require('Blockly.Xml');
 goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('Slider');
 goog.require('BlocklyInterface');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
@@ -279,7 +280,7 @@ const tile_SHAPES = {
  * Milliseconds between each animation frame.
  */
 let stepSpeed;
-
+let speedSlider;
 let start_;
 let finish_;
 let pegmanX;
@@ -480,11 +481,18 @@ function init() {
        'zoom': {'startScale': scale}});
   BlocklyInterface.workspace.getAudioManager().load(SKIN.winSound, 'win');
   BlocklyInterface.workspace.getAudioManager().load(SKIN.crashSound, 'fail');
+
+  // Initialize the slider.
+  const sliderSvg = BlocklyGames.getElementById('slider');
+  speedSlider = new Slider(10, 35, 130, sliderSvg);
+  
   // Not really needed, there are no user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,isPathForward,isPathRight,isPathBackward,isPathLeft');
 
   drawMap();
+
+  
 
   const defaultXml =
       '<xml>' +
@@ -816,7 +824,7 @@ function reset(first) {
     pegmanD = startDirection + 1;
     scheduleFinish(false);
     pidList.push(setTimeout(function() {
-      stepSpeed = 100;
+      stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
       schedule([pegmanX, pegmanY, pegmanD * 4],
                [pegmanX, pegmanY, pegmanD * 4 - 4]);
       pegmanD++;
@@ -1035,10 +1043,10 @@ function execute() {
 
   // Fast animation if execution is successful.  Slow otherwise.
   if (result === ResultType.SUCCESS) {
-    stepSpeed = 100;
+    stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
     log.push(['finish', null]);
   } else {
-    stepSpeed = 150;
+    stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);
   }
 
   // log now contains a transcript of all the user's actions.
@@ -1260,7 +1268,7 @@ function scheduleFinish(sound) {
   if (sound) {
     BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
   }
-  stepSpeed = 150;  // Slow down victory animation a bit.
+  stepSpeed = 1000 * Math.pow(1 - speedSlider.getValue(), 2);  // Slow down victory animation a bit.
   pidList.push(setTimeout(function() {
       displayPegman(pegmanX, pegmanY, 18);
     }, stepSpeed));
